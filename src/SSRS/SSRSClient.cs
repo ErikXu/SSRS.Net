@@ -58,6 +58,11 @@ namespace SSRS
             return Call<CreateCatalogItemRequest, CreateCatalogItemResult>(request, "CreateCatalogItem");
         }
 
+        public SetItemDataSourcesResult? SetItemDataSources(SetItemDataSourcesRequest request)
+        {
+            return Call<SetItemDataSourcesRequest, SetItemDataSourcesResult>(request, "SetItemDataSources");
+        }
+
         public IsSSLRequiredResult? IsSSLRequired(IsSSLRequiredRequest request)
         {
             return Call<IsSSLRequiredRequest, IsSSLRequiredResult>(request, "IsSSLRequired");

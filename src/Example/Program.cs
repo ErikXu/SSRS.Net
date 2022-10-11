@@ -20,6 +20,8 @@ namespace Example
             CreateDataSource(url, userName, password, domain);
 
             CreateReport(url, userName, password, domain);
+
+            SetReportDataSource(url, userName, password, domain);
         }
 
         private static void CreateFolder(string url, string userName, string password, string domain)
@@ -105,6 +107,32 @@ namespace Example
             };
 
             var result = client.CreateCatalogItem(request);
+        }
+
+        private static void SetReportDataSource(string url, string userName, string password, string domain)
+        {
+            using var client = new SSRSClient(url, userName, password, domain);
+
+            var request = new SetItemDataSourcesRequest
+            {
+                SetItemDataSources = new SetItemDataSources
+                {
+                    ItemPath = "/foo/bar/MyReport",
+                    DataSources = new SetItemDataSourcesDataSources
+                    {
+                        DataSource = new SetItemDataSourcesDataSourcesDataSource
+                        {
+                            Name = "MyDataSource",
+                            DataSourceReference = new SetItemDataSourcesDataSourcesDataSourceDataSourceReference
+                            {
+                                Reference = "/foo/bar/MyDataSource"
+                            }
+                        }
+                    }
+                }
+            };
+
+            var result = client.SetItemDataSources(request);
         }
     }
 }
