@@ -1,5 +1,6 @@
 ﻿using SSRS;
 using SSRS.Requests;
+using System.Text;
 
 namespace Example
 {
@@ -17,6 +18,8 @@ namespace Example
             CreateSubFolder(url, userName, password, domain);
 
             CreateDataSource(url, userName, password, domain);
+
+            CreateReport(url, userName, password, domain);
         }
 
         private static void CreateFolder(string url, string userName, string password, string domain)
@@ -79,6 +82,29 @@ namespace Example
             };
 
             var result = client.CreateDataSource(request);
+        }
+
+        private static void CreateReport(string url, string userName, string password, string domain)
+        {
+            var content = File.ReadAllText("MyReport.rdl");
+            var bytes = Encoding.UTF8.GetBytes(content);
+            var base64 = Convert.ToBase64String(bytes);
+
+            using var client = new SSRSClient(url, userName, password, domain);
+
+            var request = new CreateCatalogItemRequest
+            {
+                CreateCatalogItem = new CreateCatalogItem
+                {
+                    ItemType = "Report",
+                    Name = "MyReport",
+                    Parent = "/foo/bar",
+                    Overwrite= true,
+                    Definition = base64
+                }
+            };
+
+            var result = client.CreateCatalogItem(request);
         }
     }
 }
