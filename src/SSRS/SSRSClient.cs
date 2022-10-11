@@ -48,6 +48,11 @@ namespace SSRS
             return Call<CreateFolderRequest, CreateFolderResult>(request, "CreateFolder");
         }
 
+        public CreateDataSourceResult? CreateDataSource(CreateDataSourceRequest request)
+        {
+            return Call<CreateDataSourceRequest, CreateDataSourceResult>(request, "CreateDataSource");
+        }
+
         public IsSSLRequiredResult? IsSSLRequired(IsSSLRequiredRequest request)
         {
             return Call<IsSSLRequiredRequest, IsSSLRequiredResult>(request, "IsSSLRequired");
