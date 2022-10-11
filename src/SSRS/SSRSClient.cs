@@ -43,6 +43,11 @@ namespace SSRS
             _client = new RestClient(options);
         }
 
+        public CreateFolderResult? CreateFolder(CreateFolderRequest request)
+        {
+            return Call<CreateFolderRequest, CreateFolderResult>(request, "CreateFolder");
+        }
+
         public IsSSLRequiredResult? IsSSLRequired(IsSSLRequiredRequest request)
         {
             return Call<IsSSLRequiredRequest, IsSSLRequiredResult>(request, "IsSSLRequired");

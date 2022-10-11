@@ -1,5 +1,6 @@
 ﻿using SSRS;
 using SSRS.Requests;
+using System;
 
 namespace Example
 {
@@ -12,37 +13,40 @@ namespace Example
             var password = "{password}";
             var domain = "{domain}";
 
+            CreateFolder(url, userName, password, domain);
+            CreateSubFolder(url, userName, password, domain);
+        }
+
+        private static void CreateFolder(string url, string userName, string password, string domain)
+        {
             using var client = new SSRSClient(url, userName, password, domain);
 
-            //var request1 = new IsSSLRequiredRequest
-            //{
-            //    IsSSLRequired = new object()
-            //};
-            //var response1 = client.IsSSLRequired(request1);
-
-            //var request2 = new GetItemTypeRequest
-            //{
-            //    GetItemType = new GetItemType
-            //    {
-            //        ItemPath = "/MyReport"
-            //    }
-            //};
-            //var response2 = client.GetItemType(request2);
-
-            var request3 = new GetSystemPropertiesRequest
+            var request = new CreateFolderRequest
             {
-                GetSystemProperties = new GetSystemProperties
+                CreateFolder = new CreateFolder
                 {
-                    Properties = new GetSystemPropertiesProperties
-                    {
-                        Property = new GetSystemPropertiesPropertiesProperty
-                        {
-                            Name = "SharePointIntegrated"
-                        }
-                    }
+                    Parent = "/",
+                    Folder = "foo"
                 }
             };
-            var response3 = client.GetSystemProperties(request3);
+
+            var result = client.CreateFolder(request);
+        }
+
+        private static void CreateSubFolder(string url, string userName, string password, string domain)
+        {
+            using var client = new SSRSClient(url, userName, password, domain);
+
+            var request = new CreateFolderRequest
+            {
+                CreateFolder = new CreateFolder
+                {
+                    Parent = "/foo",
+                    Folder = "bar"
+                }
+            };
+
+            var result = client.CreateFolder(request);
         }
     }
 }
